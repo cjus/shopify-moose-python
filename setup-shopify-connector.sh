@@ -2,9 +2,9 @@
 set -euo pipefail
 
 # Install connector repo
-REPO_BRANCH=carlos/shopify-python-connector bash -i <(curl -fsSL https://connectors.514.ai/install.sh) shopify v0 fiveonefour python
+REPO_BRANCH=carlos/shopify-python-connector bash -i <(curl -fsSL https://connectors.514.ai/install.sh) shopify v2025-07 514-labs python
 
-cd shopify
+cd shopify/data-api
 
 # Ensure build tools are installed
 pip install --upgrade pip build

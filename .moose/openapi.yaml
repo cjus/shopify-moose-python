@@ -6,17 +6,73 @@ servers:
 - url: http://localhost:4000
   description: Server URL
 paths:
-  /consumption/getShopifyOrdersByCustomer:
+  /consumption/getShopifyOrdersByDate:
     get:
-      summary: Egress endpoint for getShopifyOrdersByCustomer
+      summary: Egress endpoint for getShopifyOrdersByDate
       parameters:
-      - name: customer_id
+      - name: start_date
         in: query
         required: false
         schema:
           type: string
         example: stringValue
-      - name: customer_email
+      - name: end_date
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: days_back
+        in: query
+        required: false
+        schema:
+          type: integer
+        example: 1
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+        example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                additionalProperties: false
+                properties: {}
+                type: object
+  /ingest/shopify_orders:
+    post:
+      summary: Ingress endpoint for shopify_orders
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shopify_orders'
+      responses:
+        '200':
+          description: Successful operation
+  /consumption/getShopifyOrderLookup:
+    get:
+      summary: Egress endpoint for getShopifyOrderLookup
+      parameters:
+      - name: order_id
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: order_number
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: name
         in: query
         required: false
         schema:
@@ -68,82 +124,6 @@ paths:
                 additionalProperties: false
                 properties: {}
                 type: object
-  /ingest/shopify_orders:
-    post:
-      summary: Ingress endpoint for shopify_orders
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/shopify_orders'
-      responses:
-        '200':
-          description: Successful operation
-  /consumption/getShopifyCustomerActivity:
-    get:
-      summary: Egress endpoint for getShopifyCustomerActivity
-      parameters:
-      - name: days_back
-        in: query
-        required: false
-        schema:
-          type: integer
-        example: 1
-      - name: limit
-        in: query
-        required: false
-        schema:
-          type: integer
-        example: 1
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                additionalProperties: false
-                properties: {}
-                type: object
-  /consumption/getCustomersByEmail:
-    get:
-      summary: Egress endpoint for getCustomersByEmail
-      parameters:
-      - name: email
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: limit
-        in: query
-        required: false
-        schema:
-          type: integer
-        example: 1
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                additionalProperties: false
-                properties: {}
-                type: object
-  /ingest/shopify_customers:
-    post:
-      summary: Ingress endpoint for shopify_customers
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/shopify_customers'
-      responses:
-        '200':
-          description: Successful operation
   /consumption/getShopifyInventoryLevels:
     get:
       summary: Egress endpoint for getShopifyInventoryLevels
@@ -163,60 +143,24 @@ paths:
                 additionalProperties: false
                 properties: {}
                 type: object
-  /consumption/getShopifyOrderLookup:
-    get:
-      summary: Egress endpoint for getShopifyOrderLookup
-      parameters:
-      - name: order_id
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: order_number
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: name
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: limit
-        in: query
-        required: false
-        schema:
-          type: integer
-        example: 1
+  /ingest/shopify_inventory_levels:
+    post:
+      summary: Ingress endpoint for shopify_inventory_levels
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shopify_inventory_levels'
       responses:
         '200':
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                additionalProperties: false
-                properties: {}
-                type: object
-  /consumption/getShopifyCustomerSegmentation:
+  /consumption/getCustomersByEmail:
     get:
-      summary: Egress endpoint for getShopifyCustomerSegmentation
+      summary: Egress endpoint for getCustomersByEmail
       parameters:
-      - name: city
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: province
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: country
+      - name: email
         in: query
         required: false
         schema:
@@ -274,56 +218,6 @@ paths:
                 additionalProperties: false
                 properties: {}
                 type: object
-  /consumption/getShopifyOrdersByDate:
-    get:
-      summary: Egress endpoint for getShopifyOrdersByDate
-      parameters:
-      - name: start_date
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: end_date
-        in: query
-        required: false
-        schema:
-          type: string
-        example: stringValue
-      - name: days_back
-        in: query
-        required: false
-        schema:
-          type: integer
-        example: 1
-      - name: limit
-        in: query
-        required: false
-        schema:
-          type: integer
-        example: 1
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                additionalProperties: false
-                properties: {}
-                type: object
-  /ingest/shopify_inventory_levels:
-    post:
-      summary: Ingress endpoint for shopify_inventory_levels
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/shopify_inventory_levels'
-      responses:
-        '200':
-          description: Successful operation
   /consumption/getShopifyOrderAnalytics:
     get:
       summary: Egress endpoint for getShopifyOrderAnalytics
@@ -355,6 +249,112 @@ paths:
                 additionalProperties: false
                 properties: {}
                 type: object
+  /consumption/getShopifyOrdersByCustomer:
+    get:
+      summary: Egress endpoint for getShopifyOrdersByCustomer
+      parameters:
+      - name: customer_id
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: customer_email
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+        example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                additionalProperties: false
+                properties: {}
+                type: object
+  /ingest/shopify_customers:
+    post:
+      summary: Ingress endpoint for shopify_customers
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shopify_customers'
+      responses:
+        '200':
+          description: Successful operation
+  /consumption/getShopifyCustomerSegmentation:
+    get:
+      summary: Egress endpoint for getShopifyCustomerSegmentation
+      parameters:
+      - name: city
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: province
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+        example: stringValue
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+        example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                additionalProperties: false
+                properties: {}
+                type: object
+  /consumption/getShopifyCustomerActivity:
+    get:
+      summary: Egress endpoint for getShopifyCustomerActivity
+      parameters:
+      - name: days_back
+        in: query
+        required: false
+        schema:
+          type: integer
+        example: 1
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+        example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                additionalProperties: false
+                properties: {}
+                type: object
 components:
   schemas:
     shopify_inventory_levels:
@@ -363,15 +363,15 @@ components:
         tracked:
           type: boolean
           example: true
-        updated_at:
-          type: string
-          example: 2025-08-13T19:49:28.008190-06:00
         sku:
           type: string
           example: stringValue
         location_name:
           type: string
           example: stringValue
+        updated_at:
+          type: string
+          example: 2025-08-14T13:24:13.373155-06:00
         available:
           type: number
           example: 1.0
@@ -384,121 +384,121 @@ components:
     shopify_orders:
       type: object
       properties:
-        total_discounts:
-          type: number
-          example: 1.0
-        order_number:
-          type: string
-          example: stringValue
-        source_name:
-          type: string
-          example: stringValue
-        total_line_items_quantity:
-          type: integer
-          example: 1
-        line_items_count:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: stringValue
-        financial_status:
-          type: string
-          example: stringValue
-        total_tax:
-          type: number
-          example: 1.0
-        billing_country:
-          type: string
-          example: stringValue
-        created_at:
-          type: string
-          example: 2025-08-13T19:49:28.008146-06:00
         customer_email:
-          type: string
-          example: stringValue
-        shipping_zip:
-          type: string
-          example: stringValue
-        test:
-          type: boolean
-          example: true
-        referring_site:
-          type: string
-          example: stringValue
-        shipping_address2:
-          type: string
-          example: stringValue
-        confirmation_number:
-          type: string
-          example: stringValue
-        subtotal_price:
-          type: number
-          example: 1.0
-        updated_at:
-          type: string
-          example: 2025-08-13T19:49:28.008148-06:00
-        shipping_province:
-          type: string
-          example: stringValue
-        total_price:
-          type: number
-          example: 1.0
-        id:
           type: string
           example: stringValue
         billing_address2:
           type: string
           example: stringValue
-        billing_zip:
-          type: string
-          example: stringValue
-        processed_at:
-          type: string
-          example: 2025-08-13T19:49:28.008148-06:00
-        shipping_city:
-          type: string
-          example: stringValue
-        billing_province:
-          type: string
-          example: stringValue
-        cancelled_at:
-          type: string
-          example: 2025-08-13T19:49:28.008149-06:00
-        fulfillment_status:
-          type: string
-          example: stringValue
         customer_phone:
           type: string
           example: stringValue
-        shipping_address1:
+        billing_zip:
           type: string
           example: stringValue
-        tags:
+        shipping_city:
           type: string
           example: stringValue
         shipping_country:
           type: string
           example: stringValue
-        closed_at:
-          type: string
-          example: 2025-08-13T19:49:28.008149-06:00
-        currency:
+        note:
           type: string
           example: stringValue
+        total_tax:
+          type: number
+          example: 1.0
+        shipping_province:
+          type: string
+          example: stringValue
+        total_line_items_quantity:
+          type: integer
+          example: 1
+        fulfillment_status:
+          type: string
+          example: stringValue
+        customer_id:
+          type: string
+          example: stringValue
+        billing_province:
+          type: string
+          example: stringValue
+        billing_country:
+          type: string
+          example: stringValue
+        name:
+          type: string
+          example: stringValue
+        line_items_count:
+          type: integer
+          example: 1
         billing_city:
           type: string
           example: stringValue
-        presentment_currency:
+        currency:
           type: string
           example: stringValue
-        note:
+        confirmation_number:
           type: string
           example: stringValue
         billing_address1:
           type: string
           example: stringValue
-        customer_id:
+        financial_status:
+          type: string
+          example: stringValue
+        id:
+          type: string
+          example: stringValue
+        order_number:
+          type: string
+          example: stringValue
+        shipping_address1:
+          type: string
+          example: stringValue
+        cancelled_at:
+          type: string
+          example: 2025-08-14T13:24:13.373128-06:00
+        tags:
+          type: string
+          example: stringValue
+        total_price:
+          type: number
+          example: 1.0
+        total_discounts:
+          type: number
+          example: 1.0
+        closed_at:
+          type: string
+          example: 2025-08-14T13:24:13.373128-06:00
+        presentment_currency:
+          type: string
+          example: stringValue
+        subtotal_price:
+          type: number
+          example: 1.0
+        shipping_address2:
+          type: string
+          example: stringValue
+        test:
+          type: boolean
+          example: true
+        processed_at:
+          type: string
+          example: 2025-08-14T13:24:13.373127-06:00
+        source_name:
+          type: string
+          example: stringValue
+        updated_at:
+          type: string
+          example: 2025-08-14T13:24:13.373127-06:00
+        created_at:
+          type: string
+          example: 2025-08-14T13:24:13.373124-06:00
+        shipping_zip:
+          type: string
+          example: stringValue
+        referring_site:
           type: string
           example: stringValue
       required:
@@ -506,25 +506,43 @@ components:
     shopify_customers:
       type: object
       properties:
-        created_at:
-          type: string
-          example: 2025-08-13T19:49:28.008174-06:00
-        email:
-          type: string
-          example: stringValue
         updated_at:
           type: string
-          example: 2025-08-13T19:49:28.008175-06:00
+          example: 2025-08-14T13:24:13.373160-06:00
         state:
           type: string
           example: stringValue
         zip:
           type: string
           example: stringValue
-        address2:
+        city:
+          type: string
+          example: stringValue
+        first_name:
+          type: string
+          example: stringValue
+        address1:
+          type: string
+          example: stringValue
+        id:
+          type: string
+          example: stringValue
+        email:
           type: string
           example: stringValue
         phone:
+          type: string
+          example: stringValue
+        province:
+          type: string
+          example: stringValue
+        created_at:
+          type: string
+          example: 2025-08-14T13:24:13.373160-06:00
+        country:
+          type: string
+          example: stringValue
+        address2:
           type: string
           example: stringValue
         last_name:
@@ -533,23 +551,5 @@ components:
         verified_email:
           type: boolean
           example: true
-        province:
-          type: string
-          example: stringValue
-        country:
-          type: string
-          example: stringValue
-        address1:
-          type: string
-          example: stringValue
-        first_name:
-          type: string
-          example: stringValue
-        id:
-          type: string
-          example: stringValue
-        city:
-          type: string
-          example: stringValue
       required:
       - id
