@@ -64,13 +64,26 @@ def fetch_inventory(connector: ShopifyConnector, limit: int) -> Iterable[Dict[st
         for lvl in levels_edges:
             lvl_node = lvl.get("node", {}) if isinstance(lvl, dict) else {}
             loc = lvl_node.get("location") or {}
+            
+            # Extract available quantity from quantities array
+            available_qty = None
+            quantities = lvl_node.get("quantities", [])
+            for qty in quantities:
+                if isinstance(qty, dict) and qty.get("name") == "available":
+                    available_qty = qty.get("quantity")
+                    break
+            
+            # Use current timestamp for updated_at since it's not provided by GraphQL
+            from datetime import datetime, timezone
+            current_time = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            
             yield {
                 "sku": node.get("sku"),
                 "tracked": node.get("tracked"),
-                "available": lvl_node.get("available"),
+                "available": float(available_qty) if available_qty is not None else None,
                 "location_id": loc.get("id"),
                 "location_name": loc.get("name"),
-                "updated_at": lvl_node.get("updatedAt"),
+                "updated_at": current_time,  # Use current time as fallback
             }
 
 
