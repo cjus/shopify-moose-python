@@ -11,6 +11,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+
+# Debug and temporary files
+debug*.py
+temp*.py
+test_*.py
 .Python
 build/
 develop-eggs/
