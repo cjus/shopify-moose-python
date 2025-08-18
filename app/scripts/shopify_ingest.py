@@ -15,8 +15,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 try:
     from shopify_connector import ShopifyConnector
 except Exception as e:
-    print("ERROR: shopify_connector is not installed. Install the wheel in this folder:")
-    print("  pip install ./shopify_connector-0.1.8-py3-none-any.whl")
+    print("ERROR: shopify_connector is not installed:")
+    print("  Run the setup-shopify-connection.sh script")
     raise
 
 

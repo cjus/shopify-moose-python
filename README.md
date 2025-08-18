@@ -1,6 +1,6 @@
 # Shopify → Moose Python Demo
 
-This demo uses the 514 Shopify Pyhton conector to pull Shopify data and ingest into Moose DMV2 (ClickHouse) via the Moose dev server.
+This demo uses the 514 Shopify Pyhton conector to pull Shopify data and ingest into Moose via the Moose dev server.
 
 ## Prerequisites
 - Python 3.12+
